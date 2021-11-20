@@ -3,6 +3,7 @@ import uuid
 from werkzeug.utils import secure_filename
 from pathlib import Path
 from flask import Flask, flash, request, redirect, url_for, render_template, jsonify
+from flask_cors import CORS, cross_origin
 
 dirp = Path(__file__).parents[0]
 template_folder = os.path.join(dirp, 'templates')
@@ -11,6 +12,7 @@ media_folder = os.path.join(static_folder)
 media_base_url = '/static'
 
 app = Flask(__name__, template_folder=template_folder, static_folder=static_folder)
+cors = CORS(app)
 app.config['UPLOAD_FOLDER'] = media_folder
 app.config['MAX_CONTENT_LENGTH'] = 16*1024*1024 # 16MB
 app.config['NEXT_IMAGE_ID'] = 0
