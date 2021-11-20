@@ -16,7 +16,7 @@ cors = CORS(app)
 app.config['UPLOAD_FOLDER'] = media_folder
 app.config['MAX_CONTENT_LENGTH'] = 16*1024*1024 # 16MB
 app.config['NEXT_IMAGE_ID'] = 0
-app_store = {'images': {}}
+app.config['store'] = {'images': {}}
 
 IMAGE_EXTENSIONS = set(['png'])
 
@@ -50,7 +50,7 @@ def upimg():
     ext = file.filename.rsplit('.',1)[1].lower()
     new_filename = f'{app.config["NEXT_IMAGE_ID"]}_{secure_filename(str(uuid.uuid4()))}.{ext}'
     img_path = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
-    app_store['images'][app.config['NEXT_IMAGE_ID']] = {
+    app.config['store']['images'][app.config['NEXT_IMAGE_ID']] = {
         '_name': new_filename,
         'url': f'{media_base_url}/{new_filename}' 
     }
@@ -64,12 +64,12 @@ def upimg():
 
 @app.route('/images', methods=['GET'])
 def images():
-    return app_store['images'], 200
+    return app.config['store']['images'], 200
 
 @app.route('/images/<int:id>', methods=['GET'])
 def images_id(id):
-    if app_store['images'].get(id):
-        return app_store['images'][id], 200
+    if app.config['store']['images'].get(id):
+        return app.config['store']['images'][id], 200
     else:
         return {'message': 'Did not find image'}, 404
 
