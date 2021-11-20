@@ -5,7 +5,7 @@ import axios from 'axios';
 import useStyles from './styles';
 
 const ImageForm = () => {
-    const api_base = '/'
+    const api_base = ''
     const classes = useStyles();
     const [show, setShow] = useState(false);
     const [imageFile, setImageFile] = useState(null);
@@ -15,6 +15,7 @@ const ImageForm = () => {
     const [currentlyUploading, setCurrentlyUploading] = useState(false);
 
     const get_image_url = (id) => {
+        console.log('GET IMAGE URL');
         id &&
         axios
         .get(`${api_base}images/${id}`)
