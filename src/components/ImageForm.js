@@ -18,7 +18,7 @@ const ImageForm = () => {
         console.log('GET IMAGE URL');
         id &&
         axios
-        .get(`${api_base}images/${id}`)
+        .get(`${api_base}/images/${id}`)
         .then((response) => {
             console.log(response);
             const data = response.data;
