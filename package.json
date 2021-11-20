@@ -14,6 +14,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "dbuild": "react-scripts build && rmdir templates /s /q && rename build templates",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
