@@ -11,7 +11,7 @@ const ImageForm = () => {
     const [imageFile, setImageFile] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
     const [progress, setProgress] = useState(null);
-    const [imageId, setImageId] = useState(null);
+    const [imageId, setImageId] = useState(0);
     const [currentlyUploading, setCurrentlyUploading] = useState(false);
 
     const get_image_url = (id) => {
