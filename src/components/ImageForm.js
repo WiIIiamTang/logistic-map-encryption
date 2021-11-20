@@ -40,6 +40,7 @@ const ImageForm = () => {
             console.log(response);
             const data = response.data;
             setImageId(data.id);
+            setImageUrl(data.url);
             setImageFile(null);
             setCurrentlyUploading(false);
             setShow(false);
@@ -52,9 +53,9 @@ const ImageForm = () => {
         });
     };
 
-    useEffect(() => {
-        get_image_url(imageId);
-    }, [imageId])
+    // useEffect(() => {
+    //     get_image_url(imageId);
+    // }, [imageId])
 
     return (
         <div className={classes.muiVersion}>

@@ -56,6 +56,7 @@ def upimg():
     }
     result['message'] = 'Image uploaded'
     result['id'] = app.config['NEXT_IMAGE_ID']
+    result['url'] = f'{media_base_url}/{new_filename}'
     result['uploaded'] = True
     app.config['NEXT_IMAGE_ID'] += 1
     file.save(img_path)
