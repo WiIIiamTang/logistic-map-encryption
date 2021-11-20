@@ -15,7 +15,7 @@ app = Flask(__name__, template_folder=template_folder, static_folder=static_fold
 cors = CORS(app)
 app.config['UPLOAD_FOLDER'] = media_folder
 app.config['MAX_CONTENT_LENGTH'] = 16*1024*1024 # 16MB
-app.config['NEXT_IMAGE_ID'] = 0
+app.config['NEXT_IMAGE_ID'] = 1
 app.config['store'] = {'images': {}}
 
 IMAGE_EXTENSIONS = set(['png'])
