@@ -5,13 +5,17 @@ from pathlib import Path
 from flask import Flask, flash, request, redirect, url_for, render_template, jsonify
 from flask_cors import CORS, cross_origin
 
+DEBUG = False
 dirp = Path(__file__).parents[0]
 template_folder = os.path.join(dirp, 'templates')
 static_folder = os.path.join(template_folder, 'static')
 media_folder = os.path.join(static_folder)
 media_base_url = '/static'
 
-app = Flask(__name__, template_folder=template_folder, static_folder=static_folder)
+if DEBUG:
+    app = Flask(__name__)
+else:
+    app = Flask(__name__, template_folder=template_folder, static_folder=static_folder)
 cors = CORS(app)
 app.config['UPLOAD_FOLDER'] = media_folder
 app.config['MAX_CONTENT_LENGTH'] = 16*1024*1024 # 16MB
@@ -25,7 +29,10 @@ def verify_image_extension(s):
 
 @app.route('/')
 def main():
-    return render_template('index.html')
+    if DEBUG:
+        return '<div><h1>dev server</h1></div>'
+    else:
+        return render_template('index.html')
 
 @app.route('/upimg', methods=['POST'])
 def upimg():
@@ -62,17 +69,21 @@ def upimg():
     file.save(img_path)
     return result, 200
 
-@app.route('/images', methods=['GET'])
-def images():
-    return app.config['store']['images'], 200
+if DEBUG:
+    @app.route('/images', methods=['GET'])
+    def images():
+        return app.config['store']['images'], 200
 
-@app.route('/images/<int:id>', methods=['GET'])
-def images_id(id):
-    if app.config['store']['images'].get(id):
-        return app.config['store']['images'][id], 200
-    else:
-        return {'message': 'Did not find image'}, 404
+    @app.route('/images/<int:id>', methods=['GET'])
+    def images_id(id):
+        if app.config['store']['images'].get(id):
+            return app.config['store']['images'][id], 200
+        else:
+            return {'message': 'Did not find image'}, 404
 
 
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=True)
+    if DEBUG:
+        app.run(debug=True, use_reloader=True, port=5001)
+    else:
+        app.run()
