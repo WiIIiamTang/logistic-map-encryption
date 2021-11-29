@@ -42,7 +42,7 @@ class LogisticMapPixel(ImageEncryptDecrypter):
             for j in range(size[1]):
                 tmp = []
                 for k in pixels[i, j]:
-                    keypart = self._forward_l(k, self.sysrand.randrange(10, 50), (self.sysrand.random() * (self.r_max-self.r_min)) + self.r_min)
+                    keypart = self._forward_l(k, self.sysrand.randrange(5, 15), (self.sysrand.random() * (self.r_max-self.r_min)) + self.r_min)
                     tmp.append(int(keypart[0]*255))
                     key.append(keypart)
                 pixels[i, j] = tuple(tmp)
