@@ -6,6 +6,32 @@ import axios from "axios";
 const EncryptDecryptOptions = ({ setWaiting, setModel, model, api_base, uploadedKey, setOutImg, setGeneratedKey, setUploadedKey }) => {
     const classes = useStyles();
     const [key, setKey] = useState(null);
+    const maxTries = 20;
+
+    const handleEncryptTryAgain = (tries) => {
+        if (tries===0) {
+            alert('Encrypting failed. Try refreshing the page.');
+            return;
+        }
+
+        setWaiting(true);
+        axios
+        .get(`${api_base}/encrypt`, {
+            params: {
+                model: model
+            }
+        })
+        .then((response) => {
+            console.log(response);
+            const data = response.data;
+            setOutImg(data.url);
+            setGeneratedKey(data.key);
+            setWaiting(false);
+        })
+        .catch((err) => {
+            handleEncryptTryAgain(tries-1);
+        })
+    }
 
     const handleEncrypt = () => {
         setWaiting(true);
@@ -23,9 +49,34 @@ const EncryptDecryptOptions = ({ setWaiting, setModel, model, api_base, uploaded
             setWaiting(false);
         })
         .catch((err) => {
-            console.log(err);
+            handleEncryptTryAgain(maxTries);
         })
     };
+
+    const handleDecryptTryAgain = (tries) => {
+        if (tries===0) {
+            alert('Error Decrypting. Try refreshing');
+            return;
+        }
+
+        setWaiting(true);
+        axios
+        .get(`${api_base}/decrypt`, {
+            params: {
+                keyname: uploadedKey,
+                model: model
+            }
+        })
+        .then((response) => {
+            console.log(response);
+            const data = response.data;
+            setOutImg(data.url);
+            setWaiting(false);
+        })
+        .catch((err) => {
+            handleDecryptTryAgain(tries-1)
+        });
+    }
 
     const handleDecrypt = () => {
         setWaiting(true);
@@ -43,8 +94,7 @@ const EncryptDecryptOptions = ({ setWaiting, setModel, model, api_base, uploaded
             setWaiting(false);
         })
         .catch((err) => {
-            console.log(err);
-            alert(err);
+            handleDecryptTryAgain(maxTries);
         });
     }
 
