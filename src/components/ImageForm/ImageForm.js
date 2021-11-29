@@ -4,15 +4,15 @@ import { DropzoneDialog } from 'material-ui-dropzone';
 import axios from 'axios';
 import useStyles from './styles';
 
-const ImageForm = () => {
-    const api_base = ''
+const ImageForm = ({api_base}) => {
+    
     const classes = useStyles();
     const [show, setShow] = useState(false);
     const [imageFile, setImageFile] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
-    const [progress, setProgress] = useState(null);
+    //const [progress, setProgress] = useState(null);
     const [imageId, setImageId] = useState(0);
-    const [currentlyUploading, setCurrentlyUploading] = useState(false);
+    //const [currentlyUploading, setCurrentlyUploading] = useState(false);
 
     const get_image_url = (id) => {
         console.log('GET IMAGE URL');
@@ -35,20 +35,20 @@ const ImageForm = () => {
         const fd = new FormData();
         fd.append('file', file, file.name);
         axios
-        .post(`${api_base}upimg`, fd)
+        .post(`${api_base}/upimg`, fd)
         .then((response) => {
             console.log(response);
             const data = response.data;
             setImageId(data.id);
             setImageUrl(data.url);
             setImageFile(null);
-            setCurrentlyUploading(false);
+            //setCurrentlyUploading(false);
             setShow(false);
         })
         .catch((err) => {
             console.log(err);
             alert(err);
-            setCurrentlyUploading(false);
+            //setCurrentlyUploading(false);
             setShow(false);
         });
     };
@@ -59,6 +59,7 @@ const ImageForm = () => {
 
     return (
         <div className={classes.muiVersion}>
+        <h2>Input</h2>
         <div className={classes.imageSection}>
             {imageId ? (
             <>
@@ -76,11 +77,11 @@ const ImageForm = () => {
                 </a>
             </>
             ) : (
-            <p className={classes.nopic}>no mui version pic yet</p>
+            <p className={classes.nopic}>no image uploaded yet</p>
             )}
         </div>
         <Button className={classes.btn} onClick={() => setShow(true)}>
-            mui version
+            upload image
         </Button>
         <DropzoneDialog
             open={show}

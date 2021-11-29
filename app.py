@@ -4,6 +4,9 @@ from werkzeug.utils import secure_filename
 from pathlib import Path
 from flask import Flask, flash, request, redirect, url_for, render_template, jsonify
 from flask_cors import CORS, cross_origin
+import chaosencryptor.models
+from PIL import Image
+import pickle
 
 DEBUG = False
 dirp = Path(__file__).parents[0]
@@ -17,10 +20,11 @@ if DEBUG:
 else:
     app = Flask(__name__, template_folder=template_folder, static_folder=static_folder)
 cors = CORS(app)
+# media folder should be in static
 app.config['UPLOAD_FOLDER'] = media_folder
 app.config['MAX_CONTENT_LENGTH'] = 16*1024*1024 # 16MB
 app.config['NEXT_IMAGE_ID'] = 1
-app.config['store'] = {'images': {}}
+app.config['store'] = {'images': {}, 'current_upimg': None}
 
 IMAGE_EXTENSIONS = set(['png'])
 
@@ -67,6 +71,82 @@ def upimg():
     result['uploaded'] = True
     app.config['NEXT_IMAGE_ID'] += 1
     file.save(img_path)
+    app.config['store']['current_upimg'] = img_path
+    #print(app.config['store']['current_upimg'])
+
+    return result, 200
+
+
+@app.route('/encrypt', methods=['GET'])
+def encrypt():
+
+    model = request.args.get('model')
+
+    encrypter = getattr(chaosencryptor.models, model)()
+
+    im = Image.open(app.config['store']['current_upimg'])
+    name = im.filename
+    im = im.convert('RGB')
+    image, key = encrypter.encrypt(image=im, name=name)
+
+    img_path = f'{name.rsplit(".", 1)[0]}_encrypted.png'
+
+    image.save(img_path)
+
+    app.config['store']['current_encryptimg'] = img_path
+
+    key_path = os.path.join(app.config['UPLOAD_FOLDER'], f'{secure_filename(str(uuid.uuid4()))}.key')
+
+    with open(key_path, 'wb') as f:
+        pickle.dump(key, f)
+
+    result = {
+        'message': 'Image encrypted',
+        'key': os.path.basename(key_path),
+        'url': f'{media_base_url}/{os.path.basename(img_path)}'
+    }
+
+    return result, 200
+
+@app.route('/decrypt', methods=['GET'])
+def decrypt():
+
+    result = {'uploaded': False}
+    keyname = request.args.get('keyname')
+    model = request.args.get('model')
+
+    if not keyname:
+        result['message'] = 'No keyname provided'
+        return result, 404
+    
+    # Success
+    im = Image.open(app.config['store']['current_encryptimg'])
+    name = im.filename
+    im = im.convert('RGB')
+
+    with open(os.path.join(app.config['UPLOAD_FOLDER'], keyname), 'rb') as f:
+        key = pickle.load(f)
+
+    decrypter = getattr(chaosencryptor.models, model)()
+
+    image = decrypter.decrypt(image=im, key=key)
+
+    img_path = f'{name.rsplit(".", 1)[0]}_decrypted.png'
+
+    image.save(img_path)
+
+    app.config['store']['current_decryptimg'] = img_path
+
+    #key_path = os.path.join(app.config['UPLOAD_FOLDER'], 'imgkey.key')
+
+    #with open(key_path, 'wb') as f:
+        #pickle.dump(key, f)
+
+    result = {
+        'message': 'Image decrypted',
+        'url': f'{media_base_url}/{os.path.basename(img_path)}'
+    }
+
     return result, 200
 
 if DEBUG:

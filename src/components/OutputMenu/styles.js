@@ -7,6 +7,8 @@ export default makeStyles((theme) => ({
         textAlign: 'center',
         padding: '1em',
         borderRadius: '4px',
+        height: '35vw',
+        width: '35vw'
       },
       btn: {
         background: '#333',

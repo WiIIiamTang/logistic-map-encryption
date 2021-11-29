@@ -1,10 +1,10 @@
-import ImageForm from './components/ImageForm';
+import EncryptDecryptMenu from './components/EncryptDecryptMenu/EncryptDecryptMenu';
 
 const App = () => {
   return (
     <div>
-      <h2>Math 326</h2>
-      <ImageForm/>
+      <h1>Math 326</h1>
+      <EncryptDecryptMenu/>
     </div>
   );
 };
