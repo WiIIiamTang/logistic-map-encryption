@@ -8,6 +8,8 @@ flask = "*"
 gunicorn = "*"
 flask-cors = "*"
 pillow = "*"
+numpy = "*"
+matplotlib = "*"
 
 [dev-packages]
 
