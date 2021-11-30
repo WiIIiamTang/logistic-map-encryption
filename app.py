@@ -2,6 +2,7 @@ import os
 import uuid
 from werkzeug.utils import secure_filename
 from pathlib import Path
+import random
 from flask import Flask, flash, request, redirect, url_for, render_template, jsonify
 from flask_cors import CORS, cross_origin
 import chaosencryptor.models
@@ -89,7 +90,7 @@ def encrypt():
     im = im.convert('RGB')
     image, key = encrypter.encrypt(image=im, name=name)
 
-    img_path = f'{name.rsplit(".", 1)[0]}_encrypted{app.config["NEXT_IMAGE_ID"]}.png'
+    img_path = f'{name.rsplit(".", 1)[0]}_encrypted{random.randint(0, 99999)}.png'
 
     image.save(img_path)
 
@@ -131,7 +132,7 @@ def decrypt():
 
     image = decrypter.decrypt(image=im, key=key)
 
-    img_path = f'{name.rsplit(".", 1)[0]}_decrypted{app.config["NEXT_IMAGE_ID"]}.png'
+    img_path = f'{name.rsplit(".", 1)[0]}_decrypted{random.randint(0, 99999)}.png'
 
     image.save(img_path)
 
