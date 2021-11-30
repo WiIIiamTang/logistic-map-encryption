@@ -89,7 +89,7 @@ def encrypt():
     im = im.convert('RGB')
     image, key = encrypter.encrypt(image=im, name=name)
 
-    img_path = f'{name.rsplit(".", 1)[0]}_encrypted.png'
+    img_path = f'{name.rsplit(".", 1)[0]}_encrypted{app.config["NEXT_IMAGE_ID"]}.png'
 
     image.save(img_path)
 
@@ -131,7 +131,7 @@ def decrypt():
 
     image = decrypter.decrypt(image=im, key=key)
 
-    img_path = f'{name.rsplit(".", 1)[0]}_decrypted.png'
+    img_path = f'{name.rsplit(".", 1)[0]}_decrypted{app.config["NEXT_IMAGE_ID"]}.png'
 
     image.save(img_path)
 
