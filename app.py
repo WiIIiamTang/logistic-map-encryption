@@ -9,7 +9,7 @@ import chaosencryptor.src.models
 from PIL import Image
 import json
 
-DEBUG = True
+DEBUG = False
 dirp = Path(__file__).parents[0]
 template_folder = os.path.join(dirp, 'templates')
 static_folder = os.path.join(template_folder, 'static')
