@@ -12,7 +12,7 @@ const EncryptDecryptMenu = () => {
     const [model, setModel] = useState('SimpleStream');
     const [waiting, setWaiting] = useState(false);
 
-    const api_base = 'http://127.0.0.1:5000';
+    const api_base = '';
 
     return (
         <div className={classes.mainMenu}>
