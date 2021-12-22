@@ -10,8 +10,8 @@ const App = () => {
 
       <h2>Encryption details</h2>
       <p>You must upload a PNG image in the Input section. Please do not upload anything too large. The preferred size would be 100x100, such as the examples below </p>
-      <img src={"/lightDino.png"} alt="dino"/>
-      <img src={"/penguin.png"} alt="dino"/>
+      <img src={"/static/lightDino.png"} alt="dino"/>
+      <img src={"/static/penguin.png"} alt="dino"/>
 
       <p>To decrypt, uploaded the encrypted file into Input. Then paste the key into the correct place and press decrypt.</p>
 
