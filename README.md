@@ -69,7 +69,9 @@ optional arguments:
 
 
 
-## website dev
+## Website 
+
+### dev
 
 To run the website,
 ```sh
@@ -87,7 +89,7 @@ python app.py
 
 You can run both instances at the same time, but you need to set the ``api_base`` URL in ``EncryptDecryptMenu`` to the Flask server.
 
-### website prod
+### prod
 ```sh
 npm run dbuild
 ```
