@@ -25,7 +25,9 @@ const EncryptDecryptOptions = ({ setWaiting, setModel, model, api_base, uploaded
             console.log(response);
             const data = response.data;
             setOutImg(data.url);
-            setGeneratedKey(data.key);
+            if (model !== 'LogisticMapPixel') {
+                setGeneratedKey(data.key);
+            }
             setWaiting(false);
         })
         .catch((err) => {
@@ -45,7 +47,9 @@ const EncryptDecryptOptions = ({ setWaiting, setModel, model, api_base, uploaded
             console.log(response);
             const data = response.data;
             setOutImg(data.url);
-            setGeneratedKey(data.key);
+            if (model !== 'LogisticMapPixel') {
+                setGeneratedKey(data.key);
+            }
             setWaiting(false);
         })
         .catch((err) => {
