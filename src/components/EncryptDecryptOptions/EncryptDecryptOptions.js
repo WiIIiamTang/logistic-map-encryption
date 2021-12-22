@@ -126,21 +126,24 @@ const EncryptDecryptOptions = ({ setWaiting, setModel, model, api_base, uploaded
                 onClick={handleEncrypt}
             >Encrypt</Button>
 
+            {
+                (model !== 'LogisticMapPixel') &&
             <Button
                 variant="contained"
                 color="secondary"
                 size="large"
                 onClick={handleDecrypt}
             >Decrypt</Button>
+            }
 
-
-
+            { (model !== 'LogisticMapPixel') &&
             <TextField
                 fullWidth
                 label={'Paste the keystring if decrypting'}
                 variant='outlined'
                 onChange={(e) => handleInput(e.target.value)}
             />
+            }
 
             {/* {key && (<div>{key}</div>)} */}
         </div>

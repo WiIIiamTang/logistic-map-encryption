@@ -20,7 +20,7 @@ const EncryptDecryptMenu = () => {
             
             <EncryptDecryptOptions setWaiting={setWaiting} setModel={setModel} model={model} api_base={api_base} uploadedKey={uploadedKey} setOutImg={setOutImg} setGeneratedKey={setGeneratedKey} setUploadedKey={setUploadedKey}/>
             
-            <OutputMenu waiting={waiting} api_base={api_base} outImg={outImg} generatedKey={generatedKey}/>
+            <OutputMenu waiting={waiting} model={model} api_base={api_base} outImg={outImg} generatedKey={generatedKey}/>
         </div>
     )
 }

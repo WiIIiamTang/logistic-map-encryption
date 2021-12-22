@@ -27,7 +27,9 @@ const App = () => {
 
       <h2>LogisticMapPixel</h2>
       <p>A method that iterates each pixel of the image with the logistic map. The initial condition of the logistic map is the pixel's value (a number between 0 and 1).</p>
-
+      <p style={{color: 'red'}}>
+        Warning: the number of iterations has been set to 10-15 for this app and you <strong>cannot set a key or decrypt</strong> when using this method because of performance reasons. It may take a few minutes to encrypt.
+      </p>
 
       <EncryptDecryptMenu/>
 

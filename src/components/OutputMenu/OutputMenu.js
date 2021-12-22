@@ -4,7 +4,7 @@ import { DropzoneDialog } from "material-ui-dropzone";
 import axios from "axios";
 import useStyles from "./styles";
 
-const OutputMenu = ({ waiting, api_base, outImg, generatedKey }) => {
+const OutputMenu = ({ waiting, model, api_base, outImg, generatedKey }) => {
     const classes = useStyles();
     const [show, setShow] = useState(false);
     const [imageFile, setImageFile] = useState(null);
@@ -92,8 +92,8 @@ const OutputMenu = ({ waiting, api_base, outImg, generatedKey }) => {
 
 
             </div>
-            <div>
-                {generatedKey ? (
+            <div>{(model !== 'LogisticMapPixel') &&
+                (generatedKey ? (
                     
                     <div>
                         <TextField
@@ -108,7 +108,8 @@ const OutputMenu = ({ waiting, api_base, outImg, generatedKey }) => {
 
                     
 
-                ): 'no key yet'}
+                ): 'no key yet')
+            }
             </div>
             {/* <Button variant="contained" onClick={downloadKey}>
                 Download generated key
