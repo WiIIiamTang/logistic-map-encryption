@@ -5,6 +5,7 @@ export default makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         rowGap: '20px',
-        width: '400px'
+        width: '400px',
+        padding: '0 10px'
       }
 }));

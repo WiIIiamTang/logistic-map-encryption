@@ -60,18 +60,17 @@ const EncryptDecryptOptions = ({ setWaiting, setModel, model, api_base, uploaded
         }
 
         setWaiting(true);
+        const fd = new FormData();
+        fd.append('model', model);
+        fd.append('keystring', uploadedKey);
         axios
-        .get(`${api_base}/decrypt`, {
-            params: {
-                keyname: uploadedKey,
-                model: model
-            }
-        })
+        .post(`${api_base}/decrypt`, fd)
         .then((response) => {
             console.log(response);
             const data = response.data;
             setOutImg(data.url);
             setWaiting(false);
+            setGeneratedKey('');
         })
         .catch((err) => {
             handleDecryptTryAgain(tries-1)
@@ -80,18 +79,17 @@ const EncryptDecryptOptions = ({ setWaiting, setModel, model, api_base, uploaded
 
     const handleDecrypt = () => {
         setWaiting(true);
+        const fd = new FormData();
+        fd.append('model', model);
+        fd.append('keystring', uploadedKey);
         axios
-        .get(`${api_base}/decrypt`, {
-            params: {
-                keyname: uploadedKey,
-                model: model
-            }
-        })
+        .post(`${api_base}/decrypt`, fd)
         .then((response) => {
             console.log(response);
             const data = response.data;
             setOutImg(data.url);
             setWaiting(false);
+            setGeneratedKey('')
         })
         .catch((err) => {
             handleDecryptTryAgain(maxTries);
@@ -139,7 +137,7 @@ const EncryptDecryptOptions = ({ setWaiting, setModel, model, api_base, uploaded
 
             <TextField
                 fullWidth
-                label={'Write key name if decrypt'}
+                label={'Paste the keystring if decrypting'}
                 variant='outlined'
                 onChange={(e) => handleInput(e.target.value)}
             />

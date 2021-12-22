@@ -95,10 +95,20 @@ const OutputMenu = ({ waiting, api_base, outImg, generatedKey }) => {
             <div>
                 {generatedKey ? (
                     
-                    <div style={{height: '100px', overflow: 'auto', width: '200px', backgroundColor: 'red'}}>
-                    {generatedKey}
+                    <div>
+                        <TextField
+                            fullWidth
+                            readOnly
+                            multiline
+                            maxRows={5}
+                            value={generatedKey}
+                            label='key'
+                        />
                     </div>
-                ): 'no key'}
+
+                    
+
+                ): 'no key yet'}
             </div>
             {/* <Button variant="contained" onClick={downloadKey}>
                 Download generated key

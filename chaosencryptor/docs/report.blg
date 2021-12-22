@@ -1,0 +1,56 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: report.aux
+Reallocating 'name_of_file' (item size: 1) to 7 items.
+The style file: ieeetr.bst
+Reallocating 'name_of_file' (item size: 1) to 11 items.
+Database file #1: references.bib
+I was expecting a `,' or a `}'---line 37 of file references.bib
+ :     
+ :     volume = {536930},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--empty journal in Ahmad
+Warning--can't use both author and editor fields in Brassard2005
+You've used 6 entries,
+            1876 wiz_defined-function locations,
+            530 strings with 4419 characters,
+and the built_in function-call counts, 2039 in all, are:
+= -- 213
+> -- 59
+< -- 0
++ -- 22
+- -- 16
+* -- 144
+:= -- 272
+add.period$ -- 7
+call.type$ -- 6
+change.case$ -- 5
+chr.to.int$ -- 0
+cite$ -- 8
+duplicate$ -- 102
+empty$ -- 184
+format.name$ -- 16
+if$ -- 512
+int.to.chr$ -- 0
+int.to.str$ -- 6
+missing$ -- 7
+newline$ -- 22
+num.names$ -- 6
+pop$ -- 13
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 92
+stack$ -- 0
+substring$ -- 180
+swap$ -- 56
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 2
+while$ -- 19
+width$ -- 7
+write$ -- 62
+(There was 1 error message)

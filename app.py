@@ -5,21 +5,18 @@ from pathlib import Path
 import random
 from flask import Flask, flash, request, redirect, url_for, render_template, jsonify
 from flask_cors import CORS, cross_origin
-import chaosencryptor.models
+import chaosencryptor.src.models
 from PIL import Image
-import pickle
+import json
 
-DEBUG = False
+DEBUG = True
 dirp = Path(__file__).parents[0]
 template_folder = os.path.join(dirp, 'templates')
 static_folder = os.path.join(template_folder, 'static')
 media_folder = os.path.join(static_folder)
 media_base_url = '/static'
 
-if DEBUG:
-    app = Flask(__name__)
-else:
-    app = Flask(__name__, template_folder=template_folder, static_folder=static_folder)
+app = Flask(__name__, template_folder=template_folder, static_folder=static_folder)
 cors = CORS(app)
 # media folder should be in static
 app.config['UPLOAD_FOLDER'] = media_folder
@@ -34,10 +31,7 @@ def verify_image_extension(s):
 
 @app.route('/')
 def main():
-    if DEBUG:
-        return '<div><h1>dev server</h1></div>'
-    else:
-        return render_template('index.html')
+    return render_template('index.html')
 
 @app.route('/upimg', methods=['POST'])
 def upimg():
@@ -77,13 +71,12 @@ def upimg():
 
     return result, 200
 
-
 @app.route('/encrypt', methods=['GET'])
 def encrypt():
 
     model = request.args.get('model')
 
-    encrypter = getattr(chaosencryptor.models, model)()
+    encrypter = getattr(chaosencryptor.src.models, model)()
 
     im = Image.open(app.config['store']['current_upimg'])
     name = im.filename
@@ -96,39 +89,34 @@ def encrypt():
 
     app.config['store']['current_encryptimg'] = img_path
 
-    key_path = os.path.join(app.config['UPLOAD_FOLDER'], f'{secure_filename(str(uuid.uuid4()))}.key')
-
-    with open(key_path, 'wb') as f:
-        pickle.dump(key, f)
-
     result = {
         'message': 'Image encrypted',
-        'key': os.path.basename(key_path),
+        'key': json.dumps(key),
         'url': f'{media_base_url}/{os.path.basename(img_path)}'
     }
 
     return result, 200
 
-@app.route('/decrypt', methods=['GET'])
+@app.route('/decrypt', methods=['POST'])
 def decrypt():
-
     result = {'uploaded': False}
-    keyname = request.args.get('keyname')
-    model = request.args.get('model')
+    keystring = request.form.get('keystring')
+    model = request.form.get('model')
 
-    if not keyname:
-        result['message'] = 'No keyname provided'
+    if not keystring:
+        result['message'] = 'No key provided'
         return result, 404
     
     # Success
-    im = Image.open(app.config['store']['current_encryptimg'])
+    # open the current uploaded image
+    im = Image.open(app.config['store']['current_upimg'])
     name = im.filename
     im = im.convert('RGB')
 
-    with open(os.path.join(app.config['UPLOAD_FOLDER'], keyname), 'rb') as f:
-        key = pickle.load(f)
+    # load the json string
+    key = json.loads(keystring.replace('\\', ''))
 
-    decrypter = getattr(chaosencryptor.models, model)()
+    decrypter = getattr(chaosencryptor.src.models, model)()
 
     image = decrypter.decrypt(image=im, key=key)
 
@@ -137,11 +125,6 @@ def decrypt():
     image.save(img_path)
 
     app.config['store']['current_decryptimg'] = img_path
-
-    #key_path = os.path.join(app.config['UPLOAD_FOLDER'], 'imgkey.key')
-
-    #with open(key_path, 'wb') as f:
-        #pickle.dump(key, f)
 
     result = {
         'message': 'Image decrypted',
@@ -165,6 +148,6 @@ if DEBUG:
 
 if __name__ == '__main__':
     if DEBUG:
-        app.run(debug=True, use_reloader=True, port=5001)
+        app.run(debug=True, use_reloader=True)
     else:
         app.run()
