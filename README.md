@@ -12,7 +12,7 @@ View the [webapp](https://logistic-map-326.herokuapp.com/) to try it out.
 
 **The ``chaosencryptor`` directory also contains results and outputs used in the final report of this project.** See the ``outputs`` directory for a full list of images.
 
-## Models
+#### Models
 
 Current models:
 
@@ -21,7 +21,7 @@ Current models:
 - XOR with Henon map
 - Logistic map pixel iterator
 
-### Implementing a compatible encryption model
+##### Implementing a compatible encryption model
 
 Models are built off a base class ``ImageEncryptDecrypter`` that provides an easy way to extend or create new compatible models.
 **You do not need to override the ``encrypt`` function**. To create a model, you only need to
@@ -69,7 +69,7 @@ optional arguments:
 
 
 
-## Dev
+## website dev
 
 To run the website,
 ```sh
@@ -87,7 +87,7 @@ python app.py
 
 You can run both instances at the same time, but you need to set the ``api_base`` URL in ``EncryptDecryptMenu`` to the Flask server.
 
-### Production
+### website prod
 ```sh
 npm run dbuild
 ```
