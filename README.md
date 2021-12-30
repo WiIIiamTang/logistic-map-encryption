@@ -99,7 +99,7 @@ The sample images need to be moved into wherever your static directory is (by de
 
 ##  Acknowledgements
 
-One method used in this project was partly based on the works of Ahmad et al.
+The Henon map method used in this project was partly based on the works of Ahmad et al.
 
 I. Ahmad, A. Soleymani, M. J. Nordin, and E. Sundararajan, "A chaotic cryptosystem for images based on henon and arnold cat map," pp. 2356–6140, 08 2014
 
